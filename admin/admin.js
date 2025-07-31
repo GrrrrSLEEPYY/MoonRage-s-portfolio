@@ -79,7 +79,7 @@ class AdminPanel {
         
         try {
             // Check if there's a config file from GitHub Actions
-            const response = await fetch('admin/config.js');
+            const response = await fetch('./config.js');
             if (response.ok) {
                 const configText = await response.text();
                 const match = configText.match(/const ADMIN_PASSWORD = '(.+)';/);

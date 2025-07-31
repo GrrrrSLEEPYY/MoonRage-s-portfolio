@@ -27,16 +27,15 @@ jobs:
     - name: Setup Pages
       uses: actions/configure-pages@v4
       
-    - name: Create admin password file
-      run: |
-        mkdir -p _site/admin
-        echo "const ADMIN_PASSWORD = '${{ secrets.ADMIN_PASSWORD || 'admin123' }}';" > _site/admin/config.js
-      
     - name: Copy files to _site
       run: |
         cp -r * _site/ 2>/dev/null || true
         # Create .nojekyll to disable Jekyll processing
         touch _site/.nojekyll
+        
+    - name: Create admin password file
+      run: |
+        echo "const ADMIN_PASSWORD = '${{ secrets.ADMIN_PASSWORD || 'admin123' }}';" > _site/admin/config.js
         
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
