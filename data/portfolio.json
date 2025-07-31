@@ -1,0 +1,106 @@
+{
+  "profile": {
+    "name": "MoonRage",
+    "title": "Digital Artist & Visual Creator",
+    "description": "I bring imagination to life through digital art, illustrations, and visual storytelling. Passionate about creating captivating artwork that evokes emotion and tells unique stories.",
+    "avatar": "data/images/avatar.jpg",
+    "email": "moonrage@example.com",
+    "phone": "+1 (555) 123-4567",
+    "location": "Your City, Country",
+    "socialLinks": {
+      "github": "#",
+      "linkedin": "#",
+      "twitter": "#",
+      "instagram": "#"
+    }
+  },
+  "about": {
+    "description": [
+      "Welcome to my artistic universe! I'm a passionate digital artist who transforms imagination into captivating visual experiences. With a deep love for color, composition, and storytelling, I create artwork that resonates with the soul.",
+      "When I'm not painting or drawing, you can find me exploring art galleries, studying the masters, or experimenting with new digital techniques. I believe art has the power to connect people and express what words cannot convey."
+    ],
+    "stats": {
+      "artworks": 200,
+      "experience": 5,
+      "collectors": 50
+    },
+    "skills": [
+      {
+        "title": "Digital Illustration",
+        "description": "Creating stunning digital paintings and character illustrations",
+        "icon": "fas fa-paint-brush"
+      },
+      {
+        "title": "Concept Art", 
+        "description": "Bringing fictional worlds and characters to life through concept design",
+        "icon": "fas fa-image"
+      },
+      {
+        "title": "Portrait Art",
+        "description": "Capturing the essence and personality in custom portrait commissions",
+        "icon": "fas fa-palette"
+      }
+    ]
+  },
+  "artworks": [
+    {
+      "id": 1,
+      "title": "Celestial Dreams",
+      "description": "A mystical digital painting exploring the beauty of cosmic landscapes",
+      "image": "data/images/artwork1.jpg",
+      "category": "digital",
+      "tags": ["Digital", "Fantasy", "Landscape"],
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "Soul Reflection",
+      "description": "An intimate portrait capturing the depth of human emotion",
+      "image": "data/images/artwork2.jpg",
+      "category": "portraits",
+      "tags": ["Portrait", "Realism", "Digital"],
+      "featured": true
+    },
+    {
+      "id": 3,
+      "title": "Ancient Guardian",
+      "description": "Concept art for a mythical creature from another realm",
+      "image": "data/images/artwork3.jpg",
+      "category": "concept",
+      "tags": ["Concept", "Creature", "Fantasy"],
+      "featured": false
+    },
+    {
+      "id": 4,
+      "title": "Enchanted Forest",
+      "description": "A magical woodland scene filled with mystical creatures and glowing lights",
+      "image": "data/images/artwork4.jpg",
+      "category": "fantasy",
+      "tags": ["Fantasy", "Environment", "Magic"],
+      "featured": true
+    },
+    {
+      "id": 5,
+      "title": "Neon Metropolis",
+      "description": "A futuristic cityscape bathed in vibrant neon lights",
+      "image": "data/images/artwork5.jpg",
+      "category": "digital",
+      "tags": ["Sci-Fi", "Urban", "Cyberpunk"],
+      "featured": false
+    },
+    {
+      "id": 6,
+      "title": "Royal Heritage",
+      "description": "An elegant portrait with classical influences and rich details",
+      "image": "data/images/artwork6.jpg",
+      "category": "portraits",
+      "tags": ["Portrait", "Classical", "Elegant"],
+      "featured": false
+    }
+  ],
+  "services": {
+    "commissions": ["Custom Portraits", "Character Design", "Illustrations", "Concept Art", "Book Covers", "Album Art"],
+    "digital": ["Digital Paintings", "Photo Manipulation", "Digital Sketches", "Fan Art", "Logo Design", "Poster Design"],
+    "specialties": ["Fantasy Art", "Sci-Fi Concepts", "Character Sheets", "Storyboards", "Game Art", "Animation"]
+  }
+}
