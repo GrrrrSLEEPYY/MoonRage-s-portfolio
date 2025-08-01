@@ -206,42 +206,97 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Contact form handling
+    // EmailJS config (set by admin, fallback to demo values)
+    function getEmailJSConfig() {
+        return {
+            userID: localStorage.getItem('emailjs_userID') || 'YOUR_EMAILJS_USER_ID',
+            serviceID: localStorage.getItem('emailjs_serviceID') || 'YOUR_EMAILJS_SERVICE_ID',
+            templateID: localStorage.getItem('emailjs_templateID') || 'YOUR_EMAILJS_TEMPLATE_ID',
+        };
+    }
+
+    // EmailJS quota logic
+    function getEmailJSQuota() {
+        const quota = JSON.parse(localStorage.getItem('emailjs_quota') || '{}');
+        const now = new Date();
+        const monthKey = `${now.getFullYear()}-${now.getMonth()+1}`;
+        if (!quota[monthKey]) quota[monthKey] = 0;
+        return { quota, monthKey };
+    }
+
+    function incrementEmailJSQuota() {
+        const { quota, monthKey } = getEmailJSQuota();
+        quota[monthKey] = (quota[monthKey] || 0) + 1;
+        localStorage.setItem('emailjs_quota', JSON.stringify(quota));
+        return quota[monthKey];
+    }
+
+    function getCurrentMonthQuota() {
+        const { quota, monthKey } = getEmailJSQuota();
+        return quota[monthKey] || 0;
+    }
+
+    // Contact form handling with EmailJS
     const contactForm = document.getElementById('contact-form');
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(this);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const subject = formData.get('subject');
-        const message = formData.get('message');
-        
-        // Basic validation
-        if (!name || !email || !subject || !message) {
-            showNotification('Please fill in all fields', 'error');
-            return;
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Quota check
+            const sentThisMonth = getCurrentMonthQuota();
+            if (sentThisMonth >= 200) {
+                showNotification('Monthly message limit reached. Please try again next month.', 'error');
+                return;
+            }
+            // Get form data
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            if (!name || !email || !subject || !message) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            if (!isValidEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Sending...';
+            submitButton.disabled = true;
+            // EmailJS send
+            const { userID, serviceID, templateID } = getEmailJSConfig();
+            if (!window.emailjs || !userID || !serviceID || !templateID || userID.includes('YOUR_')) {
+                showNotification('Email service not configured. Please contact the site admin.', 'error');
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+                return;
+            }
+            emailjs.init(userID);
+            emailjs.send(serviceID, templateID, {
+                from_name: name,
+                from_email: email,
+                subject: subject,
+                message: message
+            }).then(() => {
+                incrementEmailJSQuota();
+                showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+                contactForm.reset();
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }, (err) => {
+                showNotification('Failed to send message. Please try again later.', 'error');
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            });
+        });
+        // Disable form if quota reached
+        if (getCurrentMonthQuota() >= 200) {
+            contactForm.querySelectorAll('input,textarea,button').forEach(el => el.disabled = true);
+            showNotification('Monthly message limit reached. Please try again next month.', 'error');
         }
-        
-        if (!isValidEmail(email)) {
-            showNotification('Please enter a valid email address', 'error');
-            return;
-        }
-        
-        // Simulate form submission
-        const submitButton = this.querySelector('button[type="submit"]');
-        const originalText = submitButton.textContent;
-        submitButton.textContent = 'Sending...';
-        submitButton.disabled = true;
-        
-        setTimeout(() => {
-            showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-            this.reset();
-            submitButton.textContent = originalText;
-            submitButton.disabled = false;
-        }, 2000);
-    });
+    }
 
     // Typing effect for hero title
     const heroTitle = document.querySelector('.hero-title');

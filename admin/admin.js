@@ -219,6 +219,11 @@ class AdminPanel {
         document.getElementById('social-linkedin').value = this.portfolioData.profile.socialLinks.linkedin || '';
         document.getElementById('social-twitter').value = this.portfolioData.profile.socialLinks.twitter || '';
         document.getElementById('social-instagram').value = this.portfolioData.profile.socialLinks.instagram || '';
+        
+        // EmailJS config fields
+        document.getElementById('emailjs-userID').value = localStorage.getItem('emailjs_userID') || '';
+        document.getElementById('emailjs-serviceID').value = localStorage.getItem('emailjs_serviceID') || '';
+        document.getElementById('emailjs-templateID').value = localStorage.getItem('emailjs_templateID') || '';
     }
 
     loadArtworksGrid() {
@@ -344,6 +349,10 @@ class AdminPanel {
             localStorage.setItem('portfolioData', JSON.stringify(this.portfolioData));
             
             this.showToast('All changes saved successfully!', 'success');
+            // Save EmailJS config from admin contact tab
+            localStorage.setItem('emailjs_userID', document.getElementById('emailjs-userID').value.trim());
+            localStorage.setItem('emailjs_serviceID', document.getElementById('emailjs-serviceID').value.trim());
+            localStorage.setItem('emailjs_templateID', document.getElementById('emailjs-templateID').value.trim());
         } catch (error) {
             console.error('Error saving changes:', error);
             this.showToast('Error saving changes', 'error');
