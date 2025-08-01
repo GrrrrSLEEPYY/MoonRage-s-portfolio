@@ -132,14 +132,14 @@
                 <button class="filter-btn" data-filter="fantasy">Fantasy</button>
             </div>
             <div class="gallery-grid">
-                <div class="artwork-card" data-category="digital">
+                <div class="artwork-card" data-category="digital" data-artwork-id="celestial-dreams">
                     <div class="artwork-image">
                         <div class="artwork-placeholder">
                             <i class="fas fa-image"></i>
                         </div>
                         <div class="artwork-overlay">
-                            <a href="#" class="artwork-link"><i class="fas fa-expand"></i></a>
-                            <a href="#" class="artwork-link"><i class="fas fa-heart"></i></a>
+                            <a href="#" class="artwork-link expand-artwork" title="Expand"><i class="fas fa-expand"></i></a>
+                            <a href="#" class="artwork-link like-artwork" title="Like"><i class="fas fa-heart"></i> <span class="like-count">0</span></a>
                         </div>
                     </div>
                     <div class="artwork-content">
@@ -159,8 +159,8 @@
                             <i class="fas fa-user-circle"></i>
                         </div>
                         <div class="artwork-overlay">
-                            <a href="#" class="artwork-link"><i class="fas fa-expand"></i></a>
-                            <a href="#" class="artwork-link"><i class="fas fa-heart"></i></a>
+                            <a href="#" class="artwork-link expand-artwork" title="Expand"><i class="fas fa-expand"></i></a>
+                            <a href="#" class="artwork-link like-artwork" title="Like"><i class="fas fa-heart"></i> <span class="like-count">0</span></a>
                         </div>
                     </div>
                     <div class="artwork-content">
@@ -180,8 +180,8 @@
                             <i class="fas fa-dragon"></i>
                         </div>
                         <div class="artwork-overlay">
-                            <a href="#" class="artwork-link"><i class="fas fa-expand"></i></a>
-                            <a href="#" class="artwork-link"><i class="fas fa-heart"></i></a>
+                            <a href="#" class="artwork-link expand-artwork" title="Expand"><i class="fas fa-expand"></i></a>
+                            <a href="#" class="artwork-link like-artwork" title="Like"><i class="fas fa-heart"></i> <span class="like-count">0</span></a>
                         </div>
                     </div>
                     <div class="artwork-content">
@@ -201,8 +201,8 @@
                             <i class="fas fa-magic"></i>
                         </div>
                         <div class="artwork-overlay">
-                            <a href="#" class="artwork-link"><i class="fas fa-expand"></i></a>
-                            <a href="#" class="artwork-link"><i class="fas fa-heart"></i></a>
+                            <a href="#" class="artwork-link expand-artwork" title="Expand"><i class="fas fa-expand"></i></a>
+                            <a href="#" class="artwork-link like-artwork" title="Like"><i class="fas fa-heart"></i> <span class="like-count">0</span></a>
                         </div>
                     </div>
                     <div class="artwork-content">
@@ -222,8 +222,8 @@
                             <i class="fas fa-city"></i>
                         </div>
                         <div class="artwork-overlay">
-                            <a href="#" class="artwork-link"><i class="fas fa-expand"></i></a>
-                            <a href="#" class="artwork-link"><i class="fas fa-heart"></i></a>
+                            <a href="#" class="artwork-link expand-artwork" title="Expand"><i class="fas fa-expand"></i></a>
+                            <a href="#" class="artwork-link like-artwork" title="Like"><i class="fas fa-heart"></i> <span class="like-count">0</span></a>
                         </div>
                     </div>
                     <div class="artwork-content">
@@ -243,8 +243,8 @@
                             <i class="fas fa-crown"></i>
                         </div>
                         <div class="artwork-overlay">
-                            <a href="#" class="artwork-link"><i class="fas fa-expand"></i></a>
-                            <a href="#" class="artwork-link"><i class="fas fa-heart"></i></a>
+                            <a href="#" class="artwork-link expand-artwork" title="Expand"><i class="fas fa-expand"></i></a>
+                            <a href="#" class="artwork-link like-artwork" title="Like"><i class="fas fa-heart"></i> <span class="like-count">0</span></a>
                         </div>
                     </div>
                     <div class="artwork-content">
@@ -257,6 +257,16 @@
                         </div>
                     </div>
                 </div>
+    <!-- Artwork Overlay Modal -->
+    <div id="artwork-modal" class="artwork-modal">
+        <div class="artwork-modal-content">
+            <span class="artwork-modal-close">&times;</span>
+            <div class="artwork-modal-image"></div>
+            <div class="artwork-modal-title"></div>
+            <div class="artwork-modal-description"></div>
+            <div class="artwork-modal-tags"></div>
+        </div>
+    </div>
             </div>
         </div>
     </section>

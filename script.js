@@ -1,5 +1,67 @@
 // Smooth scrolling and navigation
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Like and Expand Artwork Functionality ---
+    function getArtworkId(card) {
+        return card.getAttribute('data-artwork-id') || card.querySelector('h3')?.textContent?.replace(/\s+/g, '-').toLowerCase();
+    }
+
+    // Like logic
+    document.querySelectorAll('.artwork-card').forEach(card => {
+        const likeBtn = card.querySelector('.like-artwork');
+        const likeCount = likeBtn.querySelector('.like-count');
+        const artworkId = getArtworkId(card);
+        // Load like count from localStorage
+        let count = parseInt(localStorage.getItem('like-count-' + artworkId)) || 0;
+        let liked = localStorage.getItem('liked-' + artworkId) === 'true';
+        likeCount.textContent = count;
+        if (liked) likeBtn.classList.add('liked');
+        likeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!localStorage.getItem('liked-' + artworkId)) {
+                count++;
+                likeCount.textContent = count;
+                likeBtn.classList.add('liked');
+                localStorage.setItem('like-count-' + artworkId, count);
+                localStorage.setItem('liked-' + artworkId, 'true');
+            }
+        });
+    });
+
+    // Expand/Overlay logic
+    const modal = document.getElementById('artwork-modal');
+    const modalImg = modal.querySelector('.artwork-modal-image');
+    const modalTitle = modal.querySelector('.artwork-modal-title');
+    const modalDesc = modal.querySelector('.artwork-modal-description');
+    const modalTags = modal.querySelector('.artwork-modal-tags');
+    document.querySelectorAll('.artwork-card').forEach(card => {
+        const expandBtn = card.querySelector('.expand-artwork');
+        expandBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Get content
+            const icon = card.querySelector('.artwork-placeholder i');
+            const imgClone = icon ? icon.cloneNode(true) : null;
+            modalImg.innerHTML = '';
+            if (imgClone) modalImg.appendChild(imgClone);
+            modalTitle.textContent = card.querySelector('h3').textContent;
+            modalDesc.textContent = card.querySelector('p').textContent;
+            // Tags
+            modalTags.innerHTML = '';
+            card.querySelectorAll('.artwork-tags span').forEach(tag => {
+                const tagEl = document.createElement('span');
+                tagEl.textContent = tag.textContent;
+                modalTags.appendChild(tagEl);
+            });
+            modal.classList.add('active');
+        });
+    });
+    // Close modal
+    modal.querySelector('.artwork-modal-close').addEventListener('click', function() {
+        modal.classList.remove('active');
+    });
+    // Close on outside click
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) modal.classList.remove('active');
+    });
     // Load portfolio data first
     loadPortfolioData();
     
