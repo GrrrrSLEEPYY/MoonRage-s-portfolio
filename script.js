@@ -5,27 +5,58 @@ document.addEventListener('DOMContentLoaded', function() {
         return card.getAttribute('data-artwork-id') || card.querySelector('h3')?.textContent?.replace(/\s+/g, '-').toLowerCase();
     }
 
-    // Like logic
-    document.querySelectorAll('.artwork-card').forEach(card => {
+    // Like/Unlike logic with cleanup
+    function updateLikeState(card) {
         const likeBtn = card.querySelector('.like-artwork');
-        const likeCount = likeBtn.querySelector('.like-count');
+        const likeCount = likeBtn?.querySelector('.like-count');
         const artworkId = getArtworkId(card);
-        // Load like count from localStorage
         let count = parseInt(localStorage.getItem('like-count-' + artworkId)) || 0;
         let liked = localStorage.getItem('liked-' + artworkId) === 'true';
-        likeCount.textContent = count;
-        if (liked) likeBtn.classList.add('liked');
-        likeBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (!localStorage.getItem('liked-' + artworkId)) {
-                count++;
-                likeCount.textContent = count;
-                likeBtn.classList.add('liked');
-                localStorage.setItem('like-count-' + artworkId, count);
-                localStorage.setItem('liked-' + artworkId, 'true');
+        if (likeCount) likeCount.textContent = count;
+        if (likeBtn) likeBtn.classList.toggle('liked', liked);
+    }
+
+    function handleLikeClick(e, card) {
+        e.preventDefault();
+        const likeBtn = card.querySelector('.like-artwork');
+        const likeCount = likeBtn?.querySelector('.like-count');
+        const artworkId = getArtworkId(card);
+        let count = parseInt(localStorage.getItem('like-count-' + artworkId)) || 0;
+        let liked = localStorage.getItem('liked-' + artworkId) === 'true';
+        if (!liked) {
+            count++;
+            localStorage.setItem('like-count-' + artworkId, count);
+            localStorage.setItem('liked-' + artworkId, 'true');
+        } else {
+            count = Math.max(0, count - 1);
+            localStorage.setItem('like-count-' + artworkId, count);
+            localStorage.removeItem('liked-' + artworkId);
+        }
+        if (likeCount) likeCount.textContent = count;
+        if (likeBtn) likeBtn.classList.toggle('liked', !liked);
+    }
+
+    // Clean up like data for deleted artworks
+    function cleanupLikes() {
+        const existingIds = Array.from(document.querySelectorAll('.artwork-card')).map(getArtworkId);
+        for (let key in localStorage) {
+            if (key.startsWith('like-count-') || key.startsWith('liked-')) {
+                const id = key.replace(/^like-count-|^liked-/, '');
+                if (!existingIds.includes(id)) {
+                    localStorage.removeItem('like-count-' + id);
+                    localStorage.removeItem('liked-' + id);
+                }
             }
-        });
+        }
+    }
+
+    document.querySelectorAll('.artwork-card').forEach(card => {
+        const likeBtn = card.querySelector('.like-artwork');
+        if (!likeBtn) return;
+        updateLikeState(card);
+        likeBtn.addEventListener('click', function(e) { handleLikeClick(e, card); });
     });
+    cleanupLikes();
 
     // Expand/Overlay logic
     const modal = document.getElementById('artwork-modal');
