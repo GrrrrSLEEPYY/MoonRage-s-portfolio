@@ -206,47 +206,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // EmailJS config (set by admin, fallback to demo values)
-    function getEmailJSConfig() {
-        return {
-            userID: localStorage.getItem('emailjs_userID') || 'YOUR_EMAILJS_USER_ID',
-            serviceID: localStorage.getItem('emailjs_serviceID') || 'YOUR_EMAILJS_SERVICE_ID',
-            templateID: localStorage.getItem('emailjs_templateID') || 'YOUR_EMAILJS_TEMPLATE_ID',
-        };
-    }
-
-    // EmailJS quota logic
-    function getEmailJSQuota() {
-        const quota = JSON.parse(localStorage.getItem('emailjs_quota') || '{}');
-        const now = new Date();
-        const monthKey = `${now.getFullYear()}-${now.getMonth()+1}`;
-        if (!quota[monthKey]) quota[monthKey] = 0;
-        return { quota, monthKey };
-    }
-
-    function incrementEmailJSQuota() {
-        const { quota, monthKey } = getEmailJSQuota();
-        quota[monthKey] = (quota[monthKey] || 0) + 1;
-        localStorage.setItem('emailjs_quota', JSON.stringify(quota));
-        return quota[monthKey];
-    }
-
-    function getCurrentMonthQuota() {
-        const { quota, monthKey } = getEmailJSQuota();
-        return quota[monthKey] || 0;
-    }
-
-    // Contact form handling with EmailJS
+    // Contact form handling (restored to original simulated behavior)
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            // Quota check
-            const sentThisMonth = getCurrentMonthQuota();
-            if (sentThisMonth >= 200) {
-                showNotification('Monthly message limit reached. Please try again next month.', 'error');
-                return;
-            }
             // Get form data
             const formData = new FormData(this);
             const name = formData.get('name');
@@ -265,37 +229,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalText = submitButton.textContent;
             submitButton.textContent = 'Sending...';
             submitButton.disabled = true;
-            // EmailJS send
-            const { userID, serviceID, templateID } = getEmailJSConfig();
-            if (!window.emailjs || !userID || !serviceID || !templateID || userID.includes('YOUR_')) {
-                showNotification('Email service not configured. Please contact the site admin.', 'error');
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-                return;
-            }
-            emailjs.init(userID);
-            emailjs.send(serviceID, templateID, {
-                from_name: name,
-                from_email: email,
-                subject: subject,
-                message: message
-            }).then(() => {
-                incrementEmailJSQuota();
+            setTimeout(() => {
                 showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
                 contactForm.reset();
                 submitButton.textContent = originalText;
                 submitButton.disabled = false;
-            }, (err) => {
-                showNotification('Failed to send message. Please try again later.', 'error');
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-            });
+            }, 2000);
         });
-        // Disable form if quota reached
-        if (getCurrentMonthQuota() >= 200) {
-            contactForm.querySelectorAll('input,textarea,button').forEach(el => el.disabled = true);
-            showNotification('Monthly message limit reached. Please try again next month.', 'error');
-        }
     }
 
     // Typing effect for hero title
@@ -612,14 +552,15 @@ function initPreloader() {
 // Portfolio Data Loading
 async function loadPortfolioData() {
     try {
-        // Try to load from localStorage first (admin changes)
-        const localData = localStorage.getItem('portfolioData');
+        // Check for admin-managed data first
+        const adminData = localStorage.getItem('portfolioData');
         let portfolioData;
         
-        if (localData) {
-            portfolioData = JSON.parse(localData);
+        if (adminData) {
+            // Use admin-managed data
+            portfolioData = JSON.parse(adminData);
         } else {
-            // Load from JSON file
+            // Fall back to JSON file
             const response = await fetch('data/portfolio.json');
             portfolioData = await response.json();
         }
@@ -737,3 +678,6 @@ function updateServiceCategory(category, services) {
 
 // Initialize preloader (uncomment to enable)
 // initPreloader();
+
+// Load portfolio data when page loads
+loadPortfolioData();
