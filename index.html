@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoonRage Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="marked.min.js"></script>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="logo">MoonRage</div>
+        <ul class="nav-links">
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+    <section id="intro">
+        <div class="hero">
+            <img src="hero.jpg" alt="Featured Artwork" class="hero-img" />
+            <div class="hero-content">
+                <h1 id="artist-name">MoonRage</h1>
+                <p id="tagline">Digital & Traditional Artist</p>
+                <button id="cta-btn">View My Work</button>
+            </div>
+        </div>
+    </section>
+    <section id="portfolio">
+        <div class="portfolio-controls">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="concept">Concept Art</button>
+            <button class="filter-btn" data-filter="portraits">Portraits</button>
+            <button class="filter-btn" data-filter="digital">Digital Art</button>
+            <button class="filter-btn" data-filter="traditional">Traditional</button>
+        </div>
+        <div class="artwork-grid" id="artwork-grid"></div>
+        <div id="artwork-modal" class="modal hidden">
+            <div class="modal-content artwork-modal-content">
+                <span id="close-artwork-modal" class="close">&times;</span>
+                <img id="modal-art-img" src="" alt="Artwork" />
+                <h2 id="modal-art-title"></h2>
+                <p id="modal-art-desc"></p>
+                <div id="modal-art-meta"></div>
+                <div id="modal-art-tags"></div>
+                <button id="prev-art">&#8592; Prev</button>
+                <button id="next-art">Next &#8594;</button>
+            </div>
+        </div>
+    </section>
+    <section id="about">
+        <div class="about-flex">
+            <img src="artist.jpg" alt="Artist Icon" class="about-photo" />
+            <div>
+                <div id="about-bio"></div>
+                <div class="stats">
+                    <span id="years-exp"></span> | <span id="total-artworks"></span>
+                </div>
+                <div id="skills" class="skills"></div>
+            </div>
+        </div>
+    </section>
+    <section id="contact">
+        <h2>Contact</h2>
+        <ul class="contact-list">
+            <li><strong>Email:</strong> <a href="mailto:moonrage@example.com">moonrage@example.com</a></li>
+            <li><strong>Phone:</strong> <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+            <li><strong>Discord:</strong> MoonRage#1234</li>
+        </ul>
+    </section>
+    <button id="admin-btn" class="admin-btn">Admin Mode</button>
+    <div id="admin-login-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Admin Password</h2>
+            <input type="password" id="admin-password-input" placeholder="Enter admin password">
+            <button id="admin-login-btn">Login</button>
+            <div id="admin-login-error"></div>
+        </div>
+    </div>
+    <div id="admin-panel" class="admin-panel hidden">
+        <div class="admin-panel-content">
+            <h2>Admin Panel</h2>
+            <button id="close-admin-panel" class="close">&times;</button>
+            <h3>Edit Bio</h3>
+            <textarea id="admin-bio" rows="3"></textarea>
+            <h3>Edit Stats</h3>
+            <label>Start Year: <input type="number" id="admin-start-year" min="1900" max="2100"></label>
+            <label>Total Artworks: <input type="number" id="admin-total-artworks" min="0"></label>
+            <h3>Edit Skills</h3>
+            <div id="admin-skills-list"></div>
+            <input type="text" id="admin-skill-input" placeholder="Add skill...">
+            <button id="add-skill-btn">Add Skill</button>
+            <h3>Edit Artworks</h3>
+            <div id="admin-artworks-list"></div>
+            <button id="add-artwork-btn">Add Artwork</button>
+            <div id="admin-artwork-form" class="hidden">
+                <h4 id="admin-artwork-form-title">Add/Edit Artwork</h4>
+                <input type="text" id="art-title" placeholder="Title">
+                <input type="text" id="art-desc" placeholder="Description">
+                <input type="text" id="art-img" placeholder="Image URL">
+                <input type="date" id="art-date">
+                <input type="text" id="art-medium" placeholder="Medium">
+                <input type="text" id="art-tags" placeholder="Tags (comma separated)">
+                <select id="art-category">
+                    <option value="digital">Digital Art</option>
+                    <option value="traditional">Traditional</option>
+                    <option value="concept">Concept Art</option>
+                    <option value="portraits">Portraits</option>
+                </select>
+                <button id="save-artwork-btn">Save</button>
+                <button id="cancel-artwork-btn">Cancel</button>
+            </div>
+            <button id="save-admin-btn">Save All Changes</button>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
