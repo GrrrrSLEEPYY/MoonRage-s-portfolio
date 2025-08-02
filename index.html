@@ -66,20 +66,55 @@
     </section>
     <section id="contact">
         <h2>Contact</h2>
-        <form id="contact-form">
-            <input type="text" name="name" placeholder="Your Name" required />
-            <input type="email" name="email" placeholder="Your Email" required />
-            <textarea name="message" placeholder="Your Message" required></textarea>
-            <button type="submit">Send</button>
-        </form>
-        <div id="contact-success" class="hidden">Thank you for reaching out!</div>
+        <ul class="contact-list">
+            <li><strong>Email:</strong> <a href="mailto:moonrage@example.com">moonrage@example.com</a></li>
+            <li><strong>Phone:</strong> <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+            <li><strong>Discord:</strong> MoonRage#1234</li>
+        </ul>
     </section>
-    <div id="login-modal" class="modal hidden">
+    <button id="admin-btn" class="admin-btn">Admin Mode</button>
+    <div id="admin-login-modal" class="modal hidden">
         <div class="modal-content">
-            <h2>Password Required</h2>
-            <input type="password" id="password-input" placeholder="Enter password">
-            <button id="login-btn">Login</button>
-            <div id="login-error"></div>
+            <h2>Admin Password</h2>
+            <input type="password" id="admin-password-input" placeholder="Enter admin password">
+            <button id="admin-login-btn">Login</button>
+            <div id="admin-login-error"></div>
+        </div>
+    </div>
+    <div id="admin-panel" class="admin-panel hidden">
+        <div class="admin-panel-content">
+            <h2>Admin Panel</h2>
+            <button id="close-admin-panel" class="close">&times;</button>
+            <h3>Edit Bio</h3>
+            <textarea id="admin-bio" rows="3"></textarea>
+            <h3>Edit Stats</h3>
+            <label>Start Year: <input type="number" id="admin-start-year" min="1900" max="2100"></label>
+            <label>Total Artworks: <input type="number" id="admin-total-artworks" min="0"></label>
+            <h3>Edit Skills</h3>
+            <div id="admin-skills-list"></div>
+            <input type="text" id="admin-skill-input" placeholder="Add skill...">
+            <button id="add-skill-btn">Add Skill</button>
+            <h3>Edit Artworks</h3>
+            <div id="admin-artworks-list"></div>
+            <button id="add-artwork-btn">Add Artwork</button>
+            <div id="admin-artwork-form" class="hidden">
+                <h4 id="admin-artwork-form-title">Add/Edit Artwork</h4>
+                <input type="text" id="art-title" placeholder="Title">
+                <input type="text" id="art-desc" placeholder="Description">
+                <input type="text" id="art-img" placeholder="Image URL">
+                <input type="date" id="art-date">
+                <input type="text" id="art-medium" placeholder="Medium">
+                <input type="text" id="art-tags" placeholder="Tags (comma separated)">
+                <select id="art-category">
+                    <option value="digital">Digital Art</option>
+                    <option value="traditional">Traditional</option>
+                    <option value="concept">Concept Art</option>
+                    <option value="portraits">Portraits</option>
+                </select>
+                <button id="save-artwork-btn">Save</button>
+                <button id="cancel-artwork-btn">Cancel</button>
+            </div>
+            <button id="save-admin-btn">Save All Changes</button>
         </div>
     </div>
     <script src="main.js"></script>
